@@ -3,7 +3,7 @@ from pony.orm import Database
 
 def _parse(cs: str):
     user_pass, host_port_dbname = cs.split("@")
-    host_port, db_name = host_port_dbname.slit("/")
+    host_port, db_name = host_port_dbname.split("/")
     user, passw = user_pass.split(":")
     host, port = host_port.split(":")
     return dict(
