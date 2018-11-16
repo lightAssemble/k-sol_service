@@ -72,6 +72,7 @@ def get_message():
     except Exception as e:
         logging.error("Error during parsing message, " + str(e.args))
 
+if __name__ == '__main__':
 
-port = int(env.get("PORT", 5000))
-app.run(host='0.0.0.0', port=port)
+    port = int(env.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
