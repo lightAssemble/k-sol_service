@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0">
+    <title>K-Solution service</title>
+    <link rel="stylesheet" href="https://unpkg.com/chota@latest">
+</head>
+<body>
+<div class="container" style="max-width: 460px;padding-top: 16px;">
+    <div class="cards">
+        <div class="card">
+            <img src="https://via.placeholder.com/460x300.png?text=FlaskTest">
+            <header>
+                <h5>
+                    Contribute to the "Lorem
+                    ipsum dolor sit amet"
+                </h5>
+            </header>
+            <div class="row">
+                <div class="col text-grey">
+                    <p>
+                        Adipiscing elit. Cras vehicula id
+                        mi ac pretium. Cras diam orci,
+                        tempor vitae purus et,
+                        commodo consequat
+                        turpis. Donec semper nisl eu
+                        ultricies sodales.
+                        Aliquam dictum dui at nunc
+                        porta congue. In quis purus
+                        vitae sapien ultrices gravida
+                        a at elit. Sed dignissim
+                        vehicula condimentum.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-8">
+                    <label for="amount">Amount</label>
+                    <input type="number" min="1" max="99999"
+                           value="10" step="10"
+                           id="amount">
+                </div>
+
+                <div class="col-4">
+                    <label for="currency">Currency</label>
+                    <select id="currency">
+                        <option>EUR</option>
+                        <option>USD</option>
+                        <option>RUB</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="comment">Comment</label>
+                    <textarea id="comment" style="resize: vertical;"></textarea>
+                </div>
+            </div>
+            <div class="is-right">
+                <button class="button outline primary" onclick="contribute()" style="cursor:default">
+                    Continue
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const elAmount = document.getElementById("amount");
+    const elCurrency = document.getElementById("currency");
+    const elComment = document.getElementById("comment");
+
+    function contribute() {
+        let xhr = new XMLHttpRequest();
+        let url = "/process";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let json = JSON.parse(xhr.responseText);
+                processResponse(json)
+            }
+        };
+        let data = JSON.stringify({
+            "amount": elAmount.value,
+            "currency": elCurrency.value,
+            "comment": elComment.value,
+        });
+        xhr.send(data);
+    }
+
+    function processResponse(data) {
+        if (data.error) {
+            alert(data.message)
+        } else {
+            window.location.href = data.url
+        }
+    }
+</script>
+</body>
+</html>
